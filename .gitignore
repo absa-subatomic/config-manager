@@ -1,0 +1,5 @@
+config.json
+local-config
+.idea
+**/__pycache__/*
+*.pyc
