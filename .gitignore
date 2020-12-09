@@ -3,3 +3,4 @@ local-config
 .idea
 **/__pycache__/*
 *.pyc
+kube-configs
