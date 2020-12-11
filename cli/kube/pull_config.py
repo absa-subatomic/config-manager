@@ -47,10 +47,11 @@ def get_config_maps(kube_config, namespace):
         for config_map in config_maps.items:
             cm_output_dir = path.join(ns_output_directory, config_map.metadata.name)
             os.mkdir(cm_output_dir)
-            for config_key in config_map.data:
-                cm_file_path = path.join(cm_output_dir, config_key)
-                with open(cm_file_path, "w") as fh:
-                    fh.write(config_map.data[config_key])
+            if config_map.data is not None:
+                for config_key in config_map.data:
+                    cm_file_path = path.join(cm_output_dir, config_key)
+                    with open(cm_file_path, "w") as fh:
+                        fh.write(config_map.data[config_key])
 
     except ApiException as e:
         if e.status == 404:
@@ -80,10 +81,11 @@ def get_secrets(kube_config, namespace):
 
             secret_output_dir = path.join(ns_output_directory, secret.metadata.name)
             os.mkdir(secret_output_dir)
-            for secret_key in secret.data:
-                cm_file_path = path.join(secret_output_dir, secret_key)
-                with open(cm_file_path, "w") as fh:
-                    fh.write(base64.b64decode(secret.data[secret_key]).decode("utf-8"))
+            if secret.data is not None:
+                for secret_key in secret.data:
+                    cm_file_path = path.join(secret_output_dir, secret_key)
+                    with open(cm_file_path, "w") as fh:
+                        fh.write(base64.b64decode(secret.data[secret_key]).decode("utf-8"))
 
     except ApiException as e:
         if e.status == 404:
